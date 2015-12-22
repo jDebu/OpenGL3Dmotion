@@ -11,16 +11,36 @@ import javax.microedition.khronos.opengles.GL10;
  */
 public class OpenGLRenderer implements Renderer{
     private Cubo cubo;
+    private Cuadrado cuadrado;
+    private int tipoPoligono;
     private float angulo;
+    private float[] rgba=new float[]{0.6f, 0.6f, 0.6f, 0.5f};
     public OpenGLRenderer(){
+        tipoPoligono=0;
         angulo=0;
         cubo=new Cubo();
     }
+    public OpenGLRenderer(int poligono){ //poligono=0 defaul
+        tipoPoligono=poligono;
+        if (poligono!=0){
+            cuadrado=new Cuadrado(true);
+            angulo=0;
+        }else {
+            tipoPoligono=0;
+            angulo=0;
+            cubo=new Cubo();
+        }
+    }
+
+    public void setRgba(float[] rgba) {
+        this.rgba = rgba;
+    }
+
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
         //set background color to balck rgba
         // Establecemos el color GRIS como fondo de la superficie
-        gl.glClearColor(0.6f, 0.6f, 0.6f, 0.5f);
+        gl.glClearColor(rgba[0], rgba[1], rgba[2], rgba[3]);
         //enable smooth shading, default not really needed
         gl.glShadeModel(GL10.GL_SMOOTH);
         //depth buffer setup
@@ -59,10 +79,21 @@ public class OpenGLRenderer implements Renderer{
         gl.glTranslatef(0, 0, -4);
         //draw our cubo
         gl.glScalef(0.5f, 0.5f, 0.5f);
-        // Rotamos el cubo un ángulo sobre el eje X, Y, Z
-        gl.glRotatef(angulo, 1.0f, 1.0f, 1.0f);
-        cubo.draw(gl);
-        // Definimos el ángulo del siguiente giro
-        angulo -= 0.45f;
+        if (tipoPoligono==0){
+            // Rotamos el cubo un ángulo sobre el eje X, Y, Z
+            gl.glRotatef(angulo, 1.0f, 1.0f, 1.0f);
+            cubo.draw(gl);
+            // Definimos el ángulo del siguiente giro
+            angulo -= 0.45f;
+        }else{
+            // Rotamos el cubo un ángulo sobre el eje Y
+            gl.glRotatef(angulo, 0.0f, 1.0f, 0.0f);
+            cuadrado.draw(gl);
+            // Definimos el ángulo del siguiente giro
+            angulo += 0.4f;
+        }
+
+
     }
+
 }

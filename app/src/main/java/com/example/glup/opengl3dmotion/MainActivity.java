@@ -17,6 +17,7 @@ import android.widget.FrameLayout;
 public class MainActivity extends AppCompatActivity {
     // Superficie de OpenGL
     private GLSurfaceView glSurface;
+    private OpenGLRenderer renderer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,10 +28,17 @@ public class MainActivity extends AppCompatActivity {
         // dibuje un triángulo sin color
         glSurface.setRenderer(new OpenGLRenderer());
         //setContentView(glSurface);
-
         // Buscamos el FrameLayout para añadirle la superficie anterior
         final FrameLayout frame = (FrameLayout)findViewById(R.id.frame);
-        frame.addView(glSurface);/*
+        final FrameLayout frame2= (FrameLayout)findViewById(R.id.frame2);
+        frame.addView(glSurface);
+
+        glSurface = new GLSurfaceView(this);
+        renderer=new OpenGLRenderer(1);
+        renderer.setRgba(new float[]{0.2f,0.2f,0.2f,0.5f});
+        glSurface.setRenderer(renderer);
+        frame2.addView(glSurface);
+        /*
         // Buscamos el resto de Vistas de la Actividad
         final CheckBox conColor = (CheckBox)findViewById(R.id.cbColorear);
         final Button boton_triang = (Button) findViewById(R.id.triangulo);
