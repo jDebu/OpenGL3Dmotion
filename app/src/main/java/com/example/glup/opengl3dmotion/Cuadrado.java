@@ -1,5 +1,7 @@
 package com.example.glup.opengl3dmotion;
 
+import android.graphics.Bitmap;
+import android.opengl.GLUtils;
 import android.util.Log;
 
 import java.nio.ByteBuffer;
@@ -33,6 +35,21 @@ public class Cuadrado {
             0.0f, 1.0f, 0.0f, 1.0f, // Color Verde con 100% de luminosidad
             0.0f, 0.0f, 1.0f, 1.0f  // Color Azul con 100% de luminosidad
     };
+    // Mapping coordinates for the vertices
+    float textureCoordinates[] = { 0.0f, 1.0f, //
+            1.0f, 1.0f, //
+            0.0f, 0.0f, //
+            1.0f, 0.0f, //
+    };
+    //la UV textura buffer
+    private FloatBuffer textureBuffer;
+    //la textura id
+    private int textureId = -1;
+    //el bitmap que se desea cargar como textura
+    private Bitmap bitmap;
+    //indicador si cargo la textura
+    private boolean loadTexture=false;
+    
     // Constructor del cuadrado
     public Cuadrado(boolean conColor) {
         // Definimos el buffer con los vértices del polígono.
@@ -61,6 +78,7 @@ public class Cuadrado {
             bufferColores.put(colores);
             bufferColores.position(0);
         }
+        setTextureCoordinates(textureCoordinates);
     }
     // Método que invoca el Renderer cuando debe dibujar el cuadrado
     public void draw(GL10 gl) {
@@ -82,6 +100,20 @@ public class Cuadrado {
             // de colores
             gl.glEnableClientState(GL10.GL_COLOR_ARRAY);
         }
+        //begin new part
+        //ver el indicador de carga de textura
+        if (loadTexture){
+            loadGLTexture(gl);
+            loadTexture=false;
+        }
+        if (textureId != -1 && textureBuffer != null){
+            gl.glEnable(GL10.GL_TEXTURE_2D);
+            //habilitar el estado de la textura
+            gl.glEnableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
+            //point to our buffers
+            gl.glTexCoordPointer(2, GL10.GL_FLOAT, 0, textureBuffer);
+        }
+        //end new part
         // Dibujamos la superficie mediante la matriz en el modo
         // triángulo
         gl.glDrawArrays(GL10.GL_TRIANGLE_STRIP, 0, vertices.length / 3);
@@ -91,5 +123,50 @@ public class Cuadrado {
         if (conColor){
             gl.glDisableClientState(GL10.GL_COLOR_ARRAY);
         }
+        // New part...
+        if (textureId != -1 && textureBuffer != null) {
+            gl.glDisableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
+        }// ... end new part.
     } // end clase
+
+    public void loadBitmap(Bitmap bitmap) { // New function.
+        this.bitmap = bitmap;
+        loadTexture = true;
+    }
+    private void loadGLTexture(GL10 gl) { // New function
+        // Generate one texture pointer...
+        int[] textures = new int[1];
+        gl.glGenTextures(1, textures, 0);
+        textureId = textures[0];
+
+        // ...and bind it to our array
+        gl.glBindTexture(GL10.GL_TEXTURE_2D, textureId);
+
+        // Create Nearest Filtered Texture
+        gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MIN_FILTER,
+                GL10.GL_LINEAR);
+        gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MAG_FILTER,
+                GL10.GL_LINEAR);
+
+        // Different possible texture parameters, e.g. GL10.GL_CLAMP_TO_EDGE
+        gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_WRAP_S,
+                GL10.GL_CLAMP_TO_EDGE);
+        gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_WRAP_T,
+                GL10.GL_REPEAT);
+
+        // Use the Android GLUtils to specify a two-dimensional texture image
+        // from our bitmap
+        GLUtils.texImage2D(GL10.GL_TEXTURE_2D, 0, bitmap, 0);
+    }
+    protected void setTextureCoordinates(float[] textureCoords) { // New
+        // function.
+        // float is 4 bytes, therefore we multiply the number if
+        // vertices with 4.
+        ByteBuffer byteBuf = ByteBuffer
+                .allocateDirect(textureCoords.length * 4);
+        byteBuf.order(ByteOrder.nativeOrder());
+        textureBuffer = byteBuf.asFloatBuffer();
+        textureBuffer.put(textureCoords);
+        textureBuffer.position(0);
+    }
 }

@@ -1,5 +1,7 @@
 package com.example.glup.opengl3dmotion;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.opengl.GLSurfaceView.Renderer;
 import android.opengl.GLU;
 
@@ -23,12 +25,17 @@ public class OpenGLRenderer implements Renderer{
     public OpenGLRenderer(int poligono){ //poligono=0 defaul
         tipoPoligono=poligono;
         if (poligono!=0){
-            cuadrado=new Cuadrado(true);
+            cuadrado=new Cuadrado(false);
             angulo=0;
         }else {
             tipoPoligono=0;
             angulo=0;
             cubo=new Cubo();
+        }
+    }
+    public void setFactory(Bitmap bitmap){
+        if (tipoPoligono!=0){
+            cuadrado.loadBitmap(bitmap);
         }
     }
 

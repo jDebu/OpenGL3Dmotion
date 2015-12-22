@@ -1,5 +1,6 @@
 package com.example.glup.opengl3dmotion;
 
+import android.graphics.BitmapFactory;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -35,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
 
         glSurface = new GLSurfaceView(this);
         renderer=new OpenGLRenderer(1);
+        renderer.setFactory(BitmapFactory.decodeResource(getResources(), R.drawable.jay));
         renderer.setRgba(new float[]{0.2f,0.2f,0.2f,0.5f});
         glSurface.setRenderer(renderer);
         frame2.addView(glSurface);
