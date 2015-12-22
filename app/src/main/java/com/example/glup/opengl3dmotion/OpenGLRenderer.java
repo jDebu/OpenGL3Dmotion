@@ -10,11 +10,11 @@ import javax.microedition.khronos.opengles.GL10;
  * Created by Glup on 19/12/15.
  */
 public class OpenGLRenderer implements Renderer{
-    private Cuadrado cubo;
+    private Cubo cubo;
     private float angulo;
     public OpenGLRenderer(){
         angulo=0;
-        cubo=new Cuadrado(true);
+        cubo=new Cubo();
     }
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
@@ -60,9 +60,9 @@ public class OpenGLRenderer implements Renderer{
         //draw our cubo
         gl.glScalef(0.5f, 0.5f, 0.5f);
         // Rotamos el cubo un ángulo sobre el eje X, Y, Z
-        gl.glRotatef(angulo, 0.0f, 1.0f, 0.0f);
+        gl.glRotatef(angulo, 1.0f, 1.0f, 1.0f);
         cubo.draw(gl);
         // Definimos el ángulo del siguiente giro
-        angulo += 0.4f;
+        angulo -= 0.45f;
     }
 }
