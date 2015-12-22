@@ -35,7 +35,7 @@ public class MiRenderer implements GLSurfaceView.Renderer {
         if (mostrar_poligono == MOSTRAR_TRIANGULO)
             triangulo = new Triangulo();
         else if (mostrar_poligono == MOSTRAR_CUADRADO)
-            cuadrado = new Cuadrado();
+            cuadrado = new Cuadrado(true);
         else if (mostrar_poligono == MOSTRAR_CUBO)
             cubo = new Cubo();
         else if (mostrar_poligono == MOSTRAR_PIRAMIDE)
