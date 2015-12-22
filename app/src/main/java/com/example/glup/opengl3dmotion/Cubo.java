@@ -1,6 +1,7 @@
 package com.example.glup.opengl3dmotion;
 
 import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 
 import javax.microedition.khronos.opengles.GL10;
@@ -54,8 +55,53 @@ public class Cubo {
             7,2,0,  7,0,5,
             0,2,3,  0,3,1,
             7,5,4,  7,4,6
-    };
+    };//6 caras cuadradas *2 trinaglus en 1 cara=12
+    public Cubo(){
+        // Definimos el buffer con los vértices del polígono.
+        // Un número float tiene 4 bytes de longitud, así que
+        // multiplicaremos x 4 el número de vértices.
+        ByteBuffer byteBuf=
+                ByteBuffer.allocateDirect(vertices.length*4);
+        byteBuf.order(ByteOrder.nativeOrder());
+        bufferVertices = byteBuf.asFloatBuffer();
+        bufferVertices.put(vertices);
+        bufferVertices.position(0);
+        // Definimos el buffer de la matriz de colores de igual
+        // forma que hemos hecho con la matriz de vértices
+        byteBuf = ByteBuffer.allocateDirect(colores.length * 4);
+        byteBuf.order(ByteOrder.nativeOrder());
+        bufferColores = byteBuf.asFloatBuffer();
+        bufferColores.put(colores);
+        bufferColores.position(0);
+        // Definimos el buffer de la matriz de índices de igual
+        // forma que hemos hecho con la matriz de vértices
+        bufferIndices = ByteBuffer.allocateDirect(indices.length);
+        bufferIndices.put(indices);
+        bufferIndices.position(0);
+    }
+    // Método que invoca el Renderer cuando debe dibujar el cubo
     public void draw(GL10 gl) {
-
+        // Dibujamos al revés que las agujas del reloj
+        gl.glFrontFace(GL10.GL_CCW);
+        // Indicamos el no de coordenadas (3), el tipo de datos de
+        // la matriz (float), la separación en la matriz de los
+        // vértices (0) y el buffer con los vértices
+        gl.glVertexPointer(3, GL10.GL_FLOAT, 0, bufferVertices);
+        // Indicamos el no de campos que definen el color (4), el
+        // tipo de datos de la matriz (float), la separación en la
+        // matriz de los colores (0) y el buffer con los colores.
+        gl.glColorPointer(4, GL10.GL_FLOAT, 0, bufferColores);
+        // Indicamos al motor OpenGL que le hemos pasado una matriz
+        // de vértices y de colores
+        gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
+        gl.glEnableClientState(GL10.GL_COLOR_ARRAY);
+        // Dibujamos la superficie mediante la matriz en el modo
+        // triángulo utilizando los índices para unirlos y formar
+        // las caras
+        gl.glDrawElements(GL10.GL_TRIANGLES, 36,
+                GL10.GL_UNSIGNED_BYTE, bufferIndices);
+        // Desactivamos el buffer de los vértices y colores
+        gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
+        gl.glDisableClientState(GL10.GL_COLOR_ARRAY);
     }
 }
