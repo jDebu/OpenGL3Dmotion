@@ -33,7 +33,7 @@ public class MiRenderer implements GLSurfaceView.Renderer {
         // creamos la geometría correspondiente
         this.mostrar_poligono=mostrar_poligono;
         if (mostrar_poligono == MOSTRAR_TRIANGULO)
-            triangulo = new Triangulo();
+            triangulo = new Triangulo(true);
         else if (mostrar_poligono == MOSTRAR_CUADRADO)
             cuadrado = new Cuadrado(true);
         else if (mostrar_poligono == MOSTRAR_CUBO)
