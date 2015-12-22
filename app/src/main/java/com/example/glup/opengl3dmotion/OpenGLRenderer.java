@@ -20,7 +20,7 @@ public class OpenGLRenderer implements Renderer{
     public OpenGLRenderer(){
         tipoPoligono=0;
         angulo=0;
-        cubo=new Cubo();
+        cubo=new Cubo(false);
     }
     public OpenGLRenderer(int poligono){ //poligono=0 defaul
         tipoPoligono=poligono;
@@ -30,12 +30,14 @@ public class OpenGLRenderer implements Renderer{
         }else {
             tipoPoligono=0;
             angulo=0;
-            cubo=new Cubo();
+            cubo=new Cubo(false);
         }
     }
     public void setFactory(Bitmap bitmap){
         if (tipoPoligono!=0){
             cuadrado.loadBitmap(bitmap);
+        }else{
+            cubo.loadBitmap(bitmap);
         }
     }
 

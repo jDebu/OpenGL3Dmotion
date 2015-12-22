@@ -25,9 +25,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         // Creamos la instancia de la superficie de OpenGL
         glSurface = new GLSurfaceView(this);
-        // Definimos el Renderer de la superficie indicando que se
-        // dibuje un triángulo sin color
-        glSurface.setRenderer(new OpenGLRenderer());
+        // Definimos el Renderer de la superficie
+        renderer=new OpenGLRenderer(0);
+        renderer.setFactory(BitmapFactory.decodeResource(getResources(), R.drawable.funny_luffy));
+        glSurface.setRenderer(renderer);
         //setContentView(glSurface);
         // Buscamos el FrameLayout para añadirle la superficie anterior
         final FrameLayout frame = (FrameLayout)findViewById(R.id.frame);
@@ -36,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
 
         glSurface = new GLSurfaceView(this);
         renderer=new OpenGLRenderer(1);
-        renderer.setFactory(BitmapFactory.decodeResource(getResources(), R.drawable.jay));
+        renderer.setFactory(BitmapFactory.decodeResource(getResources(), R.drawable.funny_luffy));
         renderer.setRgba(new float[]{0.2f,0.2f,0.2f,0.5f});
         glSurface.setRenderer(renderer);
         frame2.addView(glSurface);
