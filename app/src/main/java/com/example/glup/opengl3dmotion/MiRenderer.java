@@ -26,16 +26,19 @@ public class MiRenderer implements GLSurfaceView.Renderer {
     // Objeto del tipo Cubo que describe su geometría
     private Cubo cubo;
     // Ángulo de giro del movimiento del polígono
-    private float angulo=0;
+    private float angulo;
+    //prueba
+    private Square square;
 
-    public  MiRenderer(int mostrar_poligono){
+    public  MiRenderer(int mostrar_poligono,boolean ver_color){
         // Guardamos el tipo de polígono que queremos mostrar y
         // creamos la geometría correspondiente
         this.mostrar_poligono=mostrar_poligono;
         if (mostrar_poligono == MOSTRAR_TRIANGULO)
-            triangulo = new Triangulo(true);
+            triangulo = new Triangulo(ver_color);
         else if (mostrar_poligono == MOSTRAR_CUADRADO)
-            cuadrado = new Cuadrado(true);
+            //cuadrado = new Cuadrado(ver_color);
+            square=new Square();
         else if (mostrar_poligono == MOSTRAR_CUBO)
             cubo = new Cubo();
         else if (mostrar_poligono == MOSTRAR_PIRAMIDE)
@@ -45,10 +48,10 @@ public class MiRenderer implements GLSurfaceView.Renderer {
     // Aquí debemos indicar todo aquello que no cambia en la superficie
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-        // Indicamos el modo de sombreado suave
-        gl.glShadeModel(GL10.GL_SMOOTH);
         // Establecemos el color GRIS como fondo de la superficie
         gl.glClearColor(0.6f, 0.6f, 0.6f, 0.5f);
+        // Indicamos el modo de sombreado suave
+        gl.glShadeModel(GL10.GL_SMOOTH);
         // Configuramos el buffer de profundidad
         gl.glClearDepthf(1.0f);
         // Modo de renderizado de la profundidad
@@ -84,6 +87,7 @@ public class MiRenderer implements GLSurfaceView.Renderer {
 
     @Override
     public void onDrawFrame(GL10 gl) {
+        angulo=0;
         // Cada vez que se dibuja una escena hay que limpiar
         // tanto el buffer de color como el de profundidad
         gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
@@ -94,7 +98,7 @@ public class MiRenderer implements GLSurfaceView.Renderer {
         // Movemos la posición de los ejes en (x,y,z).
         // Es decir, alejamos el dibujo en el eje Z dando
         // sensación de profundidad.
-        gl.glTranslatef(0.0f, 0.0f, -6.0f);
+        gl.glTranslatef(0.0f, 0.0f, -4.0f);
         // Dibujamos el polígono solicitado
         if (mostrar_poligono == MOSTRAR_TRIANGULO) {
             // Rotamos el triángulo un ángulo sobre el eje Y
@@ -104,10 +108,11 @@ public class MiRenderer implements GLSurfaceView.Renderer {
             angulo -= 0.45f;
         }else if (mostrar_poligono == MOSTRAR_CUADRADO) {
             // Rotamos el cuadrado un ángulo sobre el eje Y
-            gl.glRotatef(angulo, 0.0f, 1.0f, 0.0f);
-            cuadrado.draw(gl);
+            //gl.glRotatef(angulo, 0.0f, 1.0f, 0.0f);
+            //cuadrado.draw(gl);
+            square.draw(gl);
             // Definimos el ángulo del siguiente giro
-            angulo += 0.4f;
+            //angulo += 0.4f;
         }else if (mostrar_poligono == MOSTRAR_CUBO) {
             // Escalamos el cubo al 80% para que quepa en
             // la pantalla del AVD

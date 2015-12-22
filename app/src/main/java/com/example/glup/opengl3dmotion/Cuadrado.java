@@ -1,5 +1,7 @@
 package com.example.glup.opengl3dmotion;
 
+import android.util.Log;
+
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
@@ -57,6 +59,7 @@ public class Cuadrado {
             byteBuf.order(ByteOrder.nativeOrder());
             bufferColores = byteBuf.asFloatBuffer();
             bufferColores.put(colores);
+            bufferColores.position(0);
         }
     }
     // Método que invoca el Renderer cuando debe dibujar el cuadrado
@@ -85,7 +88,8 @@ public class Cuadrado {
         // Desactivamos el buffer de los vértices
         gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
         // Desactivamos el buffer de los colores si es necesario
-        if (conColor)
+        if (conColor){
             gl.glDisableClientState(GL10.GL_COLOR_ARRAY);
+        }
     } // end clase
 }
