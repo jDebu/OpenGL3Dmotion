@@ -24,21 +24,24 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         // Creamos la instancia de la superficie de OpenGL
-        glSurface = new GLSurfaceView(this);
+        //glSurface = new Superficie(this);
         // Definimos el Renderer de la superficie
-        renderer=new OpenGLRenderer(0);
-        renderer.setFactory(BitmapFactory.decodeResource(getResources(), R.drawable.funny_luffy));
-        glSurface.setRenderer(renderer);
+        //renderer=new OpenGLRenderer(0);
+        //renderer.setFactory(BitmapFactory.decodeResource(getResources(), R.drawable.funny_luffy));
+        //glSurface.setRenderer(renderer);
         //setContentView(glSurface);
         // Buscamos el FrameLayout para añadirle la superficie anterior
+        glSurface=new GLCubeView(this);
+        //myGLES20Renderer renderer1=new myGLES20Renderer();
+        //glSurface.setRenderer(renderer1);
         final FrameLayout frame = (FrameLayout)findViewById(R.id.frame);
         final FrameLayout frame2= (FrameLayout)findViewById(R.id.frame2);
         frame.addView(glSurface);
 
         glSurface = new GLSurfaceView(this);
-        renderer=new OpenGLRenderer(1);
-        renderer.setFactory(BitmapFactory.decodeResource(getResources(), R.drawable.funny_luffy));
-        renderer.setRgba(new float[]{0.2f,0.2f,0.2f,0.5f});
+        MyGLRenderer renderer=new MyGLRenderer(this);
+        //renderer.setFactory(BitmapFactory.decodeResource(getResources(), R.drawable.funny_luffy));
+        //renderer.setRgba(new float[]{0.2f,0.2f,0.2f,0.5f});
         glSurface.setRenderer(renderer);
         frame2.addView(glSurface);
         /*

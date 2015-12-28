@@ -63,37 +63,24 @@ public class Cubo {
     };//6 caras cuadradas *2 trinaglus en 1 cara=12
     // Mapping coordinates for the vertices
     float textureCoordinates[] ={
-            //Mapping coordinates for the vertices
-            0.0f, 0.0f,
-            0.0f, 1.0f,
-            1.0f, 0.0f,
+            0.0f, 1.0f,  // A. left-bottom (NEW)
+            1.0f, 1.0f,  // B. right-bottom (NEW)
+            0.0f, 0.0f,  // C. left-top (NEW)
+            1.0f, 0.0f ,  // D. right-top (NEW)
+            0.0f, 1.0f,  // A. left-bottom (NEW)
+            1.0f, 1.0f,  // B. right-bottom (NEW)
+            0.0f, 0.0f,  // C. left-top (NEW)
+            1.0f, 0.0f,  // D. right-top (NEW)
+            0.0f, 1.0f,  // A. left-bottom (NEW)
+            1.0f, 1.0f,  // B. right-bottom (NEW)
+            0.0f, 0.0f,  // C. left-top (NEW)
+            1.0f, 0.0f,   // D. right-top (NEW)
+            0.0f, 1.0f,  // A. left-bottom (NEW)
+            1.0f, 0.0f,  // B. right-bottom (NEW)
+            1.0f, -1.0f,  // C. left-top (NEW)
+            1.0f, 0.0f,   // D. right-top (NEW)
             1.0f, 1.0f,
-
-            0.0f, 0.0f,
-            0.0f, 1.0f,
-            1.0f, 0.0f,
-            1.0f, 1.0f,
-
-            0.0f, 0.0f,
-            0.0f, 1.0f,
-            1.0f, 0.0f,
-            1.0f, 1.0f,
-
-            0.0f, 0.0f,
-            0.0f, 1.0f,
-            1.0f, 0.0f,
-            1.0f, 1.0f,
-
-            0.0f, 0.0f,
-            0.0f, 1.0f,
-            1.0f, 0.0f,
-            1.0f, 1.0f,
-
-            0.0f, 0.0f,
-            0.0f, 1.0f,
-            1.0f, 0.0f,
-            1.0f, 1.0f,
-
+            0.0f,-1.0f,
     };
     //la UV textura buffer
     private FloatBuffer textureBuffer;
